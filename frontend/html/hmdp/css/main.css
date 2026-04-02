@@ -1,0 +1,200 @@
+/* 底部导航栏安全区域适配 */
+.foot {
+    width: 60%;
+    height: auto; /* 改为自适应高度 */
+    min-height: 60px; /* 最小高度保障 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+    position: fixed; /* 改为fixed确保始终在底部 */
+    bottom: 0;
+    left: 0;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: constant(safe-area-inset-bottom); /* iOS 11.2+ */
+    padding-bottom: env(safe-area-inset-bottom); /* iOS 11.2+ */
+    z-index: 1000; /* 确保在最上层 */
+    box-sizing: border-box;
+}
+
+/* 导航项基础样式优化 */
+.foot-box {
+    width: 20%;
+    color: #82848a;
+    text-align: center;
+    cursor: pointer;
+    padding: 8px 0; /* 增加内边距提高触摸区域 */
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 50px; /* 确保最小触摸区域 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 图标样式响应式调整 */
+.foot-view {
+    font-size: clamp(20px, 5vw, 24px); /* 使用clamp实现响应式字体大小 */
+    transition: transform 0.3s ease;
+    margin-bottom: 2px;
+}
+
+/* 文字样式响应式调整 */
+.foot-text {
+    font-size: clamp(8px, 2.5vw, 9px); /* 响应式字体大小 */
+    margin-top: 2px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+}
+
+/* 添加按钮响应式优化 */
+.foot .add-btn {
+    width: clamp(36px, 10vw, 42px); /* 响应式尺寸 */
+    height: clamp(36px, 10vw, 42px);
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4), 0 2px 4px rgba(255, 107, 107, 0.2);
+    border-radius: 50%; /* 使用50%确保圆形 */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* 激活状态指示器增强 */
+.foot-box.active::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    width: 24px;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b6b 0%, #ff8e53 100%);
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.foot-box.active::before {
+    opacity: 1;
+}
+
+/* 响应式设计 - 小屏幕设备 */
+@media (max-width: 360px) {
+    .foot {
+        min-height: 55px;
+        padding: 4px 0;
+    }
+    
+    .foot-box {
+        padding: 6px 0;
+        min-height: 45px;
+    }
+    
+    .foot-view {
+        font-size: 20px;
+        margin-bottom: 1px;
+    }
+    
+    .foot-text {
+        font-size: 8px;
+    }
+}
+
+/* 响应式设计 - 超大屏幕设备 */
+@media (min-width: 768px) {
+    .foot {
+        max-width: 768px;
+        margin: 0 auto;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* 横屏模式适配 */
+@media (max-height: 500px) and (orientation: landscape) {
+    .foot {
+        position: relative;
+        padding-bottom: 0;
+    }
+    
+    body {
+        padding-bottom: 0 !important;
+    }
+}
+
+/* 高清屏幕优化 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .foot {
+        border-top: 0.5px solid rgba(0, 0, 0, 0.05);
+    }
+}
+
+/* 减少动画偏好设置 */
+@media (prefers-reduced-motion: reduce) {
+    .foot-box,
+    .foot-view,
+    .foot .add-btn {
+        transition-duration: 0.1s;
+    }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+    .foot {
+        border-top: 2px solid #000;
+        box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    .active {
+        color: #d40000;
+    }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    .foot {
+        background: #1a1a1a;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .foot-box {
+        color: #a0a0a0;
+    }
+    
+    .active {
+        color: #ff6b6b;
+    }
+}
+
+/* 触摸反馈优化 */
+.foot-box:active {
+    background-color: rgba(255, 107, 107, 0.1);
+    transform: scale(0.95);
+}
+
+.foot .add-btn:active {
+    transform: scale(0.9);
+}
+
+/* 确保内容区域不被导航栏遮挡 */
+body {
+    padding-bottom: 70px; /* 与导航栏高度匹配 */
+}
+
+/* 针对iPhone X及以上机型的特殊适配 */
+@supports (padding-bottom: constant(safe-area-inset-bottom)) or (padding-bottom: env(safe-area-inset-bottom)) {
+    .foot {
+        padding-bottom: calc(8px + constant(safe-area-inset-bottom));
+        padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    }
+}
